@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>حوّل هدفك إلى خطة</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      direction: rtl;
+      background-color: #f5f5f5;
+      padding: 30px;
+      max-width: 600px;
+      margin: auto;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      width: 100%;
+      margin-top: 10px;
+    }
+    .plan {
+      background: white;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 10px;
+    }
+    h2 { color: #444; }
+  </style>
+</head>
+<body>
+
+  <h1>حوّل هدفك إلى خطة</h1>
+  <label for="goal">اكتب هدفك:</label>
+  <input type="text" id="goal" placeholder="مثلاً: أتعلم لغة جديدة">
+  <button onclick="generatePlan()">حوّل هدفي إلى خطة</button>
+
+  <div id="planOutput" class="plan" style="display:none;"></div>
+
+  <script>
+    function generatePlan() {
+      const goal = document.getElementById("goal").value.trim();
+      const planOutput = document.getElementById("planOutput");
+
+      if (goal === "") {
+        alert("يرجى كتابة هدفك أولاً.");
+        return;
+      }
+
+      const plan = `
+        <h2>خطتك للأربعة أسابيع القادمة:</h2>
+        <ul>
+          <li><strong>الأسبوع 1:</strong> حدّد المصادر والأدوات المتعلقة بهدفك "${goal}".</li>
+          <li><strong>الأسبوع 2:</strong> ابدأ بتنفيذ أول خطوة صغيرة نحو هدفك.</li>
+          <li><strong>الأسبوع 3:</strong> راجع تقدمك وعدّل خطتك حسب الحاجة.</li>
+          <li><strong>الأسبوع 4:</strong> طبّق ما تعلمته في مشروع صغير أو تجربة عملية.</li>
+        </ul>
+        <p>احتفظ بالخطة أو اطبعها لتبقى ملتزماً بهدفك!</p>
+      `;
+
+      planOutput.innerHTML = plan;
+      planOutput.style.display = "block";
+    }
+  </script>
+
+</body>
+</html>
