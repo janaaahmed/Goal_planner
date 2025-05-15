@@ -1,66 +1,262 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <title>حوّل هدفك إلى خطة</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>خطة تعلم البرمجة</title>
   <style>
+    /* عام */
+    * {
+      box-sizing: border-box;
+    }
     body {
       font-family: Arial, sans-serif;
       direction: rtl;
-      background-color: #f5f5f5;
-      padding: 30px;
-      max-width: 600px;
-      margin: auto;
+      background-color: #f8f8f8;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+      color: #333;
+      line-height: 1.6;
     }
-    input, button {
-      padding: 10px;
-      font-size: 16px;
+    header, footer {
+      background-color: #2e6da4;
+      color: white;
+      text-align: center;
+      padding: 15px 10px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    nav a {
+      margin: 0 10px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 8px 12px;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+    nav a:hover, nav a:focus {
+      background-color: #1f4e85;
+      outline: none;
+    }
+
+    section {
+      max-width: 900px;
+      margin: 30px auto;
+      background: white;
+      padding: 25px 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+    h2, h3 {
+      color: #2e6da4;
+      margin-top: 0;
+    }
+    textarea {
       width: 100%;
+      height: 120px;
+      padding: 12px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      resize: vertical;
+      transition: border-color 0.3s ease;
+    }
+    textarea:focus {
+      border-color: #2e6da4;
+      outline: none;
+    }
+    input[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      background-color: #2e6da4;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
       margin-top: 10px;
     }
-    .plan {
-      background: white;
-      padding: 20px;
-      margin-top: 20px;
-      border-radius: 10px;
+    input[type="submit"]:hover, input[type="submit"]:focus {
+      background-color: #1f4e85;
+      outline: none;
     }
-    h2 { color: #444; }
+    ul {
+      list-style-type: disc;
+      margin-right: 25px;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    p {
+      font-size: 1rem;
+      margin-bottom: 12px;
+    }
+
+    /* زر الرجوع للأعلى */
+    #toTopBtn {
+      position: fixed;
+      bottom: 40px;
+      left: 20px;
+      background-color: #2e6da4;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      display: none;
+      z-index: 1100;
+      transition: background-color 0.3s ease;
+    }
+    #toTopBtn:hover {
+      background-color: #1f4e85;
+    }
+
+    /* استجابة للشاشات الصغيرة */
+    @media (max-width: 600px) {
+      nav a {
+        display: block;
+        margin: 8px 0;
+        padding: 10px;
+      }
+      section {
+        margin: 15px 10px;
+        padding: 20px 15px;
+      }
+      input[type="submit"] {
+        font-size: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <h1>حوّل هدفك إلى خطة</h1>
-  <label for="goal">اكتب هدفك:</label>
-  <input type="text" id="goal" placeholder="مثلاً: أتعلم لغة جديدة">
-  <button onclick="generatePlan()">حوّل هدفي إلى خطة</button>
+<header>
+  <nav aria-label="القائمة الرئيسية">
+    <a href="#home">الرئيسية</a>
+    <a href="#about">من نحن</a>
+    <a href="#contact">اتصل بنا</a>
+    <a href="#privacy">سياسة الخصوصية</a>
+  </nav>
+</header>
 
-  <div id="planOutput" class="plan" style="display:none;"></div>
+<section id="home" tabindex="0">
+  <h2>اكتب هدفك لتعلم البرمجة:</h2>
+  <textarea id="userGoal" placeholder="مثال: أريد تعلم البرمجة بلغة جافاسكربت أو بايثون..."></textarea>
+  <input type="submit" value="اعرض الخطة" onclick="generatePlan()" aria-label="اعرض خطة تعلم البرمجة">
+  <div id="plan" style="margin-top:20px;"></div>
+</section>
 
-  <script>
-    function generatePlan() {
-      const goal = document.getElementById("goal").value.trim();
-      const planOutput = document.getElementById("planOutput");
+<section id="about" tabindex="0">
+  <h2>من نحن</h2>
+  <p>نحن فريق عربي يسعى لنشر وتعليم البرمجة للمبتدئين من خلال خطط تعليمية مبسطة وواضحة باللغة العربية.</p>
+</section>
 
-      if (goal === "") {
-        alert("يرجى كتابة هدفك أولاً.");
-        return;
-      }
+<section id="contact" tabindex="0">
+  <h2>اتصل بنا</h2>
+  <p>يمكنك التواصل معنا عبر البريد الإلكتروني التالي:</p>
+  <p><strong>example@email.com</strong></p>
+</section>
 
-      const plan = `
-        <h2>خطتك للأربعة أسابيع القادمة:</h2>
-        <ul>
-          <li><strong>الأسبوع 1:</strong> حدّد المصادر والأدوات المتعلقة بهدفك "${goal}".</li>
-          <li><strong>الأسبوع 2:</strong> ابدأ بتنفيذ أول خطوة صغيرة نحو هدفك.</li>
-          <li><strong>الأسبوع 3:</strong> راجع تقدمك وعدّل خطتك حسب الحاجة.</li>
-          <li><strong>الأسبوع 4:</strong> طبّق ما تعلمته في مشروع صغير أو تجربة عملية.</li>
-        </ul>
-        <p>احتفظ بالخطة أو اطبعها لتبقى ملتزماً بهدفك!</p>
-      `;
+<section id="privacy" tabindex="0">
+  <h2>سياسة الخصوصية</h2>
+  <p>نحترم خصوصيتك. لا يتم جمع أي بيانات شخصية دون إذنك. نحن نستخدم الكوكيز فقط لتحسين تجربتك في التصفح.</p>
+</section>
 
-      planOutput.innerHTML = plan;
-      planOutput.style.display = "block";
+<button id="toTopBtn" aria-label="العودة للأعلى" title="العودة للأعلى" onclick="scrollToTop()">↑</button>
+
+<footer>
+  جميع الحقوق محفوظة © 2025
+</footer>
+
+<script>
+  // توليد خطة التعلم
+  function generatePlan() {
+    const goal = document.getElementById("userGoal").value.trim().toLowerCase();
+    const planDiv = document.getElementById("plan");
+
+    if (goal.length === 0) {
+      planDiv.innerHTML = "<p style='color:red;'>يرجى كتابة هدف واضح أولاً.</p>";
+      return;
     }
-  </script>
+
+    if (goal.includes("برمجة") || goal.includes("كود") || goal.includes("تعلم")) {
+      planDiv.innerHTML = getProgrammingPlan();
+    } else {
+      planDiv.innerHTML = "<p>يرجى إدخال هدف واضح مثل 'تعلم البرمجة' أو 'تعلم بايثون'.</p>";
+    }
+  }
+
+  function getProgrammingPlan() {
+    return `
+      <h3>خطة 4 أسابيع لتعلم البرمجة:</h3>
+      <h4>الأسبوع 1: الأساسيات</h4>
+      <ul>
+        <li>اليوم 1: مقدمة في البرمجة وفهم الأساسيات.</li>
+        <li>اليوم 2: تثبيت بيئة العمل للغة المختارة (جافاسكربت أو بايثون).</li>
+        <li>اليوم 3: المتغيرات وأنواع البيانات الأساسية.</li>
+        <li>اليوم 4: العمليات الحسابية والشروط.</li>
+        <li>اليوم 5: الحلقات التكرارية (for و while).</li>
+        <li>اليوم 6: الدوال البسيطة واستخدامها.</li>
+        <li>اليوم 7: مراجعة وتجربة أكواد بسيطة.</li>
+      </ul>
+
+      <h4>الأسبوع 2: الهياكل والتحكم في تدفق البرنامج</h4>
+      <ul>
+        <li>اليوم 1: القوائم (arrays) والكائنات (objects).</li>
+        <li>اليوم 2: إدخال ومخرجات البيانات.</li>
+        <li>اليوم 3: كتابة دوال متقدمة.</li>
+        <li>اليوم 4: التعامل مع الأخطاء try-catch.</li>
+        <li>اليوم 5: خوارزميات بحث وترتيب بسيطة.</li>
+        <li>اليوم 6: البرمجة الكائنية (OOP) – المفاهيم الأساسية.</li>
+        <li>اليوم 7: مراجعة الأسبوع وبناء مشروع صغير.</li>
+      </ul>
+
+      <h4>الأسبوع 3: البرمجة المتقدمة والتطبيقات</h4>
+      <ul>
+        <li>اليوم 1: التعامل مع APIs وملفات JSON.</li>
+        <li>اليوم 2: الأحداث event handling (لجافاسكربت).</li>
+        <li>اليوم 3: استخدام المكتبات مثل React أو Django.</li>
+        <li>اليوم 4: بناء تطبيق بسيط باستخدام ما تعلمته.</li>
+        <li>اليوم 5: تحسين الأداء وإعادة تنظيم الكود.</li>
+        <li>اليوم 6: اختبار التطبيق وتصحيح الأخطاء.</li>
+        <li>اليوم 7: مراجعة شاملة للمفاهيم.</li>
+      </ul>
+
+      <h4>الأسبوع 4: مشاريع عملية ونشر</h4>
+      <ul>
+        <li>اليوم 1: اختيار فكرة مشروع برمجي بسيط.</li>
+        <li>اليوم 2: بناء المشروع وتطويره.</li>
+        <li>اليوم 3: تحسين واجهة المستخدم (HTML/CSS).</li>
+        <li>اليوم 4: اختبار المشروع وإصلاح الأخطاء.</li>
+        <li>اليوم 5: نشر المشروع على GitHub أو بيئة حية.</li>
+        <li>اليوم 6: مشاركة المشروع مع الأصدقاء أو المجتمع.</li>
+        <li>اليوم 7: تقييم الأداء ووضع خطط للتعلم المستمر.</li>
+      </ul>
+    `;
+  }
+
+  // زر العودة للأعلى
+  const toTopBtn = document.getElementById("toTopBtn");
+
+  window.onscroll = function() {
+    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+      toTopBtn.style.display = "block";
+    } else {
+      toTopBtn.style.display = "none";
+    }
+  };
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+</script>
 
 </body>
 </html>
